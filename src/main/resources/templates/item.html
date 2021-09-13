@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div>
+    <form action="/itemSearch" method="post">
+        <input name="keyword" th:value="${keyword}" type="text">
+        <select th:name="wordType">
+            <option th:selected="${wordType}=='front'" th:value="front">앞단어</option>
+            <option th:selected="${wordType}=='match'" th:value="match">동일단어</option>
+            <option th:selected="${wordType}=='full'" th:value="full">전문</option>
+        </select>
+        <input type="submit" value="검색">
+    </form>
+</div>
+
+<div th:if="${itemList == null}">
+    검색결과가 없습니다
+</div>
+<div th:if="${itemList != null}">
+    <table border="1">
+        <th>itemImage</th>
+        <th hidden>itemId</th>
+        <th>itemName</th>
+        <th>itemRarity</th>
+        <th>itemType</th>
+        <th>itemTypeDetail</th>
+        <th>itemAvailableLevel</th>
+        <tr th:each="item : ${itemList}">
+            <td><img th:src="@{https://img-api.neople.co.kr/df/items/}+${item.itemId}"></td>
+            <td hidden th:text="${item.itemId}"></td>
+            <td><a th:href="@{/itemInfo(itemId=${item.itemId},keyword=${keyword},wordType=${wordType})}"><span th:text="${item.itemName}" ></span></a></td>
+            <td th:text="${item.itemRarity}"></td>
+            <td th:text="${item.itemType}"></td>
+            <td th:text="${item.itemTypeDetail}"></td>
+            <td th:text="${item.itemAvailableLevel}"></td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

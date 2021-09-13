@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/itemSearch(keyword=${keyword},wordType=${wordType})}" th:method="post">
+    <input type="submit" value="검색결과로 돌아가기">
+</form>
+<table border="1">
+    <tr>
+        <td>itemImage</td>
+        <td><img th:src="@{https://img-api.neople.co.kr/df/items/}+${itemDetail.itemId}"></td>
+    </tr>
+    <tr hidden>
+        <td>itemId</td>
+        <td th:text="${itemDetail.itemId}"></td>
+    </tr>
+    <tr>
+        <td>itemName</td>
+        <td th:text="${itemDetail.itemName}"></td>
+    </tr>
+    <tr>
+        <td>itemRarity</td>
+        <td th:text="${itemDetail.itemRarity}"></td>
+    </tr>
+    <tr>
+        <td>itemType</td>
+        <td th:text="${itemDetail.itemType}"></td>
+    </tr>
+    <tr>
+        <td>itemTypeDetail</td>
+        <td th:text="${itemDetail.itemTypeDetail}"></td>
+    </tr>
+    <tr>
+        <td>itemAvailableLevel</td>
+        <td th:text="${itemDetail.itemAvailableLevel}"></td>
+    </tr>
+    <tr >
+        <td>itemObtainInfo</td>
+        <td style="white-space:pre;" th:text="${itemDetail.itemObtainInfo}"></td>
+    </tr>
+    <tr>
+        <td>itemExplain</td>
+        <td style="white-space:pre;" th:text="${itemDetail.itemExplain}"></td>
+    </tr>
+    <tr>
+        <td>itemExplainDetail</td>
+        <td style="white-space:pre;" th:text="${itemDetail.itemExplainDetail}"> </td>
+    </tr>
+    <tr>
+        <td>itemFlavorText</td>
+        <td style="white-space:pre;" th:text="${itemDetail.itemFlavorText}"></td>
+    </tr>
+    <tr>
+        <td>setItemId</td>
+        <td th:text="${itemDetail.setItemId}"></td>
+    </tr>
+    <tr>
+        <td>setItemName</td>
+        <td th:text="${itemDetail.setItemName}"></td>
+    </tr>
+    <tr th:if="${itemDetail.itemStatus != null}" th:each="status : ${itemDetail.itemStatus}">
+        <td th:text="${status.name}"></td>
+        <td th:text="${status.value}"></td>
+    </tr>
+
+    <th:block th:if="${itemDetail.cardInfo != null}">
+        <tr>
+            <td colspan="2">cardInfo</td>
+        </tr>
+        <tr>
+            <td>slotName</td>
+            <td th:text="${itemDetail.cardInfo.slots[0].slotName}"></td>
+        </tr>
+        <div th:each="en : ${itemDetail.cardInfo.enchant}">
+            <td colspan="2" th:text="${en.upgrade}+@{회 업그레이드}"></td>
+                <tr th:each="s : ${en.status}">
+                    <td th:text="${s.name}"></td>
+                    <td th:text="${s.value}"></td>
+                </tr>
+        </div>
+
+    </th:block>
+
+
+</table>
+
+
+</body>
+</html>
