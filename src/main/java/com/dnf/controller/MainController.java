@@ -55,18 +55,18 @@ public class MainController {
     }
 
     @PostMapping("/itemSearch")
-    public String itemSearch(@RequestParam(value = "keyword") String keyword,@RequestParam(value = "wordType",required = false,defaultValue = "front") String wordType, Model model) {
+    public String itemSearch(@RequestParam(value = "keyword") String keyword, @RequestParam(value = "wordType", required = false, defaultValue = "front") String wordType, Model model) {
         log.info("itemSearch");
         log.info(keyword);
         log.info(wordType);
         String itemSearchUrl = "https://api.neople.co.kr/df/items";
         log.info(itemSearchUrl);
         HttpResponse<String> response = Unirest.get(itemSearchUrl)
-                                                .queryString("itemName", keyword)
-                                                .queryString("wordType", wordType)
-                                                .queryString("limit", 30)
-                                                .queryString("apikey", API_KEY)
-                                                .asString();
+                .queryString("itemName", keyword)
+                .queryString("wordType", wordType)
+                .queryString("limit", 30)
+                .queryString("apikey", API_KEY)
+                .asString();
 
         if (response.getStatus() != HttpStatus.OK) {
             return "/";
@@ -81,7 +81,6 @@ public class MainController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("wordType", wordType);
         if (!itemList.isEmpty()) {
-//            itemList = itemList.stream().filter(item -> item.getItemType().equals("무기")).collect(Collectors.toList());
             model.addAttribute("itemList", itemList);
         }
         return "/item";
@@ -93,14 +92,14 @@ public class MainController {
                            @RequestParam("wordType") String wordType,
                            Model model) throws UnsupportedEncodingException {
         log.info("itemInfo");
-        keyword = URLDecoder.decode(keyword,"UTF-8");
+        keyword = URLDecoder.decode(keyword, "UTF-8");
         log.info(itemId);
 
-        String itemDetailUrl = "https://api.neople.co.kr/df/items/"+itemId;
+        String itemDetailUrl = "https://api.neople.co.kr/df/items/" + itemId;
 
         HttpResponse<String> response = Unirest.get(itemDetailUrl)
-                                                .queryString("apikey", API_KEY)
-                                                .asString();
+                .queryString("apikey", API_KEY)
+                .asString();
         if (response.getStatus() != HttpStatus.OK) {
             return "/";
         }
